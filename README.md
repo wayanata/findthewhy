@@ -35,6 +35,8 @@ Open [http://localhost:5173](http://localhost:5173).
 ---
 
 ## How it works
+![Uploading career_map_how_it_works_flow (1).svg…]()
+
 
 The app guides you through three stages:
 
