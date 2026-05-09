@@ -1,6 +1,8 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // Vite proxy ini meneruskan request /api/anthropic/* ke Claude API
 // dengan API key di-inject di server side. Key tidak ter-expose ke browser.
 // Untuk production deployment, ganti dengan serverless function (Vercel/Netlify).
@@ -9,7 +11,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    plugins: [react()],
+    plugins: [react(), cloudflare()],
     server: {
       port: 5173,
       proxy: {
@@ -32,5 +34,5 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-  }
+  };
 })
