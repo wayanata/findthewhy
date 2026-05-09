@@ -1,3 +1,9 @@
+_____ _           _   _____ _            __        ___           
+ |  ___(_)_ __   __| | |_   _| |__   ___  \ \      / / |__  _   _ 
+ | |_  | | '_ \ / _` |   | | | '_ \ / _ \  \ \ /\ / /| '_ \| | | |
+ |  _| | | | | | (_| |   | | | | | |  __/   \ V  V / | | | | |_| |
+ |_|   |_|_| |_|\__,_|   |_| |_| |_|\___|    \_/\_/  |_| |_|\__, |
+                                                             |___/
 # Ikigai — AI-Powered Career Compass
 
 Mobile-first Ikigai questionnaire that produces a **personalized career analysis** using [Inception Labs Mercury 2](https://www.inceptionlabs.ai/) — a diffusion LLM that's 5-10× faster than Claude or GPT.
