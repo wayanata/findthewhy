@@ -1,5 +1,4 @@
-# LifeQuest
-
+**FIND THE WHY**
 A personal AI-guided web app to help you find your life direction through three integrated frameworks: **Ikigai**, **Wheel of Life**, and **OKRs**.
 
 Local-first. No login. No backend database. Your data stays in your browser.
@@ -35,7 +34,7 @@ Open [http://localhost:5173](http://localhost:5173).
 ---
 
 ## How it works
-
+<img width="673" height="490" alt="Screenshot 2026-05-09 at 15 55 40" src="https://github.com/user-attachments/assets/0e1e6985-2c23-4ad7-960f-bc62dbcea5b2" />
 The app guides you through three stages:
 
 1. **Ikigai Discovery** — Add at least 3 items to each of the four quadrants (what you love, what you're good at, what the world needs, what you can be paid for). The AI coach helps you go deeper than your first answer. When all four are filled, the AI synthesizes them into a 2-3 paragraph statement.
