@@ -469,7 +469,33 @@ function prev() {
    Scoring
    Each question belongs to one Ikigai circle. Option letters A–E are
    only indices within that question — they must NOT be mapped to circles.
+
+   Displayed % are weighted engagement: each answer adds (A=1 … E=5) to its
+   circle. Raw question counts would always be 25% each when all 20 are
+   answered (5 questions × 1 vote per circle).
    ============================================================ */
+function percentagesFromWeights(weights) {
+  const keys = ["passion", "skills", "mission", "vocation"];
+  const total = keys.reduce((s, k) => s + weights[k], 0);
+  if (total === 0) return Object.fromEntries(keys.map((k) => [k, 0]));
+
+  const parts = keys.map((k) => {
+    const exact = (weights[k] / total) * 100;
+    const floor = Math.floor(exact);
+    return { k, floor, frac: exact - floor };
+  });
+  const pct = {};
+  parts.forEach((p) => {
+    pct[p.k] = p.floor;
+  });
+  let assigned = parts.reduce((s, p) => s + p.floor, 0);
+  let remainder = 100 - assigned;
+  parts.sort((a, b) => b.frac - a.frac);
+  for (let i = 0; i < remainder; i++) pct[parts[i].k]++;
+
+  return pct;
+}
+
 function computeResult() {
   const votes = { passion: 0, skills: 0, mission: 0, vocation: 0 };
   const tieSum = { passion: 0, skills: 0, mission: 0, vocation: 0 };
@@ -481,11 +507,7 @@ function computeResult() {
     tieSum[q.circle] += LETTERS.indexOf(letter) + 1;
   });
 
-  const total = Object.values(votes).reduce((a, b) => a + b, 0) || 1;
-  const pct = {};
-  Object.keys(votes).forEach((k) => {
-    pct[k] = Math.round((votes[k] / total) * 100);
-  });
+  const pct = percentagesFromWeights(tieSum);
 
   /* Dominant circle: max votes, then higher tieSum (letter weights A=1…E=5).
      Compare in fixed order so identical ties are not biased toward passion. */
