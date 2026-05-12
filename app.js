@@ -467,22 +467,18 @@ function prev() {
 
 /* ============================================================
    Scoring
+   Each question belongs to one Ikigai circle. Option letters A–E are
+   only indices within that question — they must NOT be mapped to circles.
    ============================================================ */
-const LETTER_TO_CIRCLE = {
-  A: "passion",
-  B: "skills",
-  C: "mission",
-  D: "vocation",
-};
-
 function computeResult() {
   const votes = { passion: 0, skills: 0, mission: 0, vocation: 0 };
+  const tieSum = { passion: 0, skills: 0, mission: 0, vocation: 0 };
 
   QUESTIONS.forEach((q, i) => {
     const letter = state.answers[i][0];
     if (!letter) return;
-    const circle = LETTER_TO_CIRCLE[letter] || q.circle;
-    votes[circle] += 1;
+    votes[q.circle] += 1;
+    tieSum[q.circle] += LETTERS.indexOf(letter) + 1;
   });
 
   const total = Object.values(votes).reduce((a, b) => a + b, 0) || 1;
@@ -491,11 +487,18 @@ function computeResult() {
     pct[k] = Math.round((votes[k] / total) * 100);
   });
 
-  let dominant = "skills";
-  let best = -1;
-  Object.entries(votes).forEach(([k, v]) => {
-    if (v > best) {
-      best = v;
+  /* Dominant circle: max votes, then higher tieSum (letter weights A=1…E=5).
+     Compare in fixed order so identical ties are not biased toward passion. */
+  const compareOrder = ["skills", "passion", "mission", "vocation"];
+  let dominant = compareOrder[0];
+  let bestVotes = -1;
+  let bestSum = -1;
+  compareOrder.forEach((k) => {
+    const v = votes[k];
+    const s = tieSum[k];
+    if (v > bestVotes || (v === bestVotes && s > bestSum)) {
+      bestVotes = v;
+      bestSum = s;
       dominant = k;
     }
   });
